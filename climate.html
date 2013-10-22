@@ -1,228 +1,261 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="http://d3js.org/topojson.v0.min.js"></script>
-    <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
-    <style>
-        html {
-            /*background: #aaaaab;*/
-            padding:0px;
-            }
-        body {
-            padding:0px;
-            margin:0px;
-            /*background:  linear-gradient(to bottom, #eeeeef 0%, #aaaaab 100%) */
-            }
-        #container {
-            padding: 10px;
-            width: 1300px;
-            margin: 0px auto;
-            }
-        h1 {
-            margin:10px 0px;
-            }
-        .country {
-            fill: #fff;
-            stroke:#000;
-            }
-        .sphere {
-            fill:#2C7FD6;
-            stroke:#000;
-            stroke-width:3px;
-            }
-        .graticule {
-            fill:none;
-            stroke:#000;
-            opacity:.3;
-            }
-            
-        .Af {
-            fill:#9A0002;
-            stroke:none;
-            opacity: .9;
-            }
-        .Am {
-            fill: #FD0000;
-            stroke: none;
-            opacity: .9;
-            }
-        .As {
-            fill: #FE96A1;
-            stroke: none;
-            opacity: .9;
-            }
-        .Aw {
-            fill: #FDCEC8;
-            stroke: none;
-            opacity: .9;
-            }
-        .BWk {
-            fill: #F3F96D;
-            stroke: none;
-            opacity: .9;
-            }
-        .BWh {
-            fill: #FFC904;
-            stroke: none;
-            opacity: .9;
-            }
-        .BSk {
-            fill: #CCAA52;
-            stroke: none;
-            opacity: .9;
-            }
-        .BSh {
-            fill: #CB9418;
-            stroke: none;
-            opacity: .9;
-            }
-        .Cfa {
-            fill: #033000;
-            stroke: none;
-            opacity: .9;
-            }
-        .Cfb {
-            fill: #005002;
-            stroke: none;
-            opacity: .9;
-            }
-        .Cfc {
-            fill: #087700;
-            stroke: none;
-            opacity: .9;
-            }
-        .Csa {
-            fill: #04FC02;
-            stroke: none;
-            opacity: .9;
-            }
-        .Csb {
-            fill: #95FF00;
-            stroke: none;
-            opacity: .9;
-            }
-        .Csc {
-            fill: #BEFC00;
-            stroke: none;
-            opacity: .9;
-            }
-        .Cwa {
-            fill: #A55604;
-            stroke: none;
-            opacity: .9;
-            }
-        .Cwb {
-            fill: #986204;
-            stroke: none;
-            opacity: .9;
-            }
-        .Cwc {
-            fill: #5B3D00;
-            stroke: none;
-            opacity: .9;
-            }
-        .Dfa {
-            fill: #320032;
-            stroke: none;
-            opacity: .9;
-            }
-        .Dfb {
-            fill: #660065;
-            stroke: none;
-            opacity: .9;
-            }
-        .Dfc {
-            fill: #C700D1;
-            stroke: none;
-            opacity: .9;
-            }
-        .Dfd {
-            fill: #C51386;
-            stroke: none;
-            opacity: .9;
-            }
-        .Dsa {
-            fill: #FD64FA;
-            stroke: none;
-            opacity: .9;
-            }
-        .Dsb {
-            fill: #FCB8FD;
-            stroke: none;
-            opacity: .9;
-            }
-        .Dsc {
-            fill: #E4C7FE;
-            stroke: none;
-            opacity: .9;
-            }
-        .Dsd {
-            fill: #C6C6C6;
-            stroke: none;
-            opacity: .9;
-            }
-        .Dwa {
-            fill: #C7B5F6;
-            stroke: none;
-            opacity: .9;
-            }
-        .Dwb {
-            fill: #997CB5;
-            stroke: none;
-            opacity: .9;
-            }
-        .Dwc {
-            fill: #79569B;
-            stroke: none;
-            opacity: .9;
-            }
-        .Dwd {
-            fill: #6D23B6;
-            stroke: none;
-            opacity: .9;
-            }
-        .EF {
-            fill: #6690FF;
-            stroke: none;
-            opacity: .9;
-            }
-        .ET {
-            fill: #62FFFE;
-            stroke: none;
-            opacity: .9;
-            }
-            
-        #date {
-            font-size: inherit;
-            font-weight: inherit;
-            background: linear-gradient(to bottom, #eeeeef, #eeeeef 75%, #aaaaab);
-            border: 1px solid #999;
-            border-radius:5px;
-            -webkit-appearance:none;
-            -moz-appearance:none;
-            appearance:none;
-            }
-            
-    </style>
+<meta charset="UTF-8" />
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
+<style>
+html {
+	background: #aaaaab;
+	padding: 0px;
+}
+
+body {
+	padding: 0px;
+	margin: 0px;
+	/*background:  linear-gradient(to bottom, #eeeeef 0%, #aaaaab 100%) */
+}
+
+#container {
+	padding: 10px;
+	width: 1300px;
+	margin: 0px auto;
+}
+
+h1 {
+	margin: 10px 0px;
+}
+
+.country {
+	fill: #fff;
+	stroke: #000;
+}
+
+.sphere {
+	fill: #2C7FD6;
+	stroke: #000;
+	stroke-width: 3px;
+}
+
+.graticule {
+	fill: none;
+	stroke: #000;
+	opacity: .3;
+}
+
+.Af {
+	fill: #9A0002;
+	stroke: none;
+	opacity: .9;
+}
+
+.Am {
+	fill: #FD0000;
+	stroke: none;
+	opacity: .9;
+}
+
+.As {
+	fill: #FE96A1;
+	stroke: none;
+	opacity: .9;
+}
+
+.Aw {
+	fill: #FDCEC8;
+	stroke: none;
+	opacity: .9;
+}
+
+.BWk {
+	fill: #F3F96D;
+	stroke: none;
+	opacity: .9;
+}
+
+.BWh {
+	fill: #FFC904;
+	stroke: none;
+	opacity: .9;
+}
+
+.BSk {
+	fill: #CCAA52;
+	stroke: none;
+	opacity: .9;
+}
+
+.BSh {
+	fill: #CB9418;
+	stroke: none;
+	opacity: .9;
+}
+
+.Cfa {
+	fill: #033000;
+	stroke: none;
+	opacity: .9;
+}
+
+.Cfb {
+	fill: #005002;
+	stroke: none;
+	opacity: .9;
+}
+
+.Cfc {
+	fill: #087700;
+	stroke: none;
+	opacity: .9;
+}
+
+.Csa {
+	fill: #04FC02;
+	stroke: none;
+	opacity: .9;
+}
+
+.Csb {
+	fill: #95FF00;
+	stroke: none;
+	opacity: .9;
+}
+
+.Csc {
+	fill: #BEFC00;
+	stroke: none;
+	opacity: .9;
+}
+
+.Cwa {
+	fill: #A55604;
+	stroke: none;
+	opacity: .9;
+}
+
+.Cwb {
+	fill: #986204;
+	stroke: none;
+	opacity: .9;
+}
+
+.Cwc {
+	fill: #5B3D00;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dfa {
+	fill: #320032;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dfb {
+	fill: #660065;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dfc {
+	fill: #C700D1;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dfd {
+	fill: #C51386;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dsa {
+	fill: #FD64FA;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dsb {
+	fill: #FCB8FD;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dsc {
+	fill: #E4C7FE;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dsd {
+	fill: #C6C6C6;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dwa {
+	fill: #C7B5F6;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dwb {
+	fill: #997CB5;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dwc {
+	fill: #79569B;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dwd {
+	fill: #6D23B6;
+	stroke: none;
+	opacity: .9;
+}
+
+.EF {
+	fill: #6690FF;
+	stroke: none;
+	opacity: .9;
+}
+
+.ET {
+	fill: #62FFFE;
+	stroke: none;
+	opacity: .9;
+}
+
+#date {
+	font-size: inherit;
+	font-weight: inherit;
+	background: linear-gradient(to bottom, #eeeeef, #eeeeef 75%, #aaaaab);
+	border: 1px solid #999;
+	border-radius: 5px;
+}
+</style>
 </head>
 
 <body>
-<div id="container">
-    <h1>World Climate Conditions
-        <select id="date" onchange="loadOverlay(this.options[this.options.selectedIndex].value);">
-            <option value='1901-1925.code.geo.json'>1901-1925</option>
-            <option value='1926-1950.code.geo.json'>1926-1950</option>
-            <option value='1951-1975.code.geo.json'>1951-1975</option>
-            <option value='1976-2000.code.geo.json'>1976-2000</option>
-        </select>
-    </h1>
-</div>
-    <script>
+	<div id="container">
+		<h1>
+			World Climate Conditions <select id="date"
+				onchange="loadOverlay(this.options[this.options.selectedIndex].value);">
+				<option value='1901-1925.code.geo.json'>1901-1925</option>
+				<option value='1926-1950.code.geo.json'>1926-1950</option>
+				<option value='1951-1975.code.geo.json'>1951-1975</option>
+				<option value='1976-2000.code.geo.json'>1976-2000</option>
+			</select>
+		</h1>
+	</div>
+	<script>
         var scale = {projectionScale:1,
             widthScale:6.5,
-            heightScale:3
+            heightScale:6.5
             };
         var sizeFactor = 150;
         var width = scale.widthScale * sizeFactor;
@@ -250,11 +283,16 @@
             .precision(.1);
         */
         
-        var projection = d3.geo.mollweide()
-            .precision(.1)
-            .translate([width / 2, height / 2])
-            .scale(scale.projectionScale * sizeFactor);
-            
+//         var projection = d3.geo.mollweide()
+//             .precision(.1)
+//             .translate([width / 2, height / 2])
+//             .scale(scale.projectionScale * sizeFactor);
+        
+//         var projection = d3.geo.mercator()
+//         	.scale(80);
+        
+		var projection = d3.geo.kavrayskiy7().scale(120);
+		
         var path = d3.geo.path()
             .projection(projection);
         
@@ -281,7 +319,7 @@
     
         d3.json("world.topo.json", function (error, world) {
             svg.selectAll(".country")
-                .data(topojson.object(world, world.objects["world.geo"]).geometries)
+                .data(topojson.feature(world, world.objects.world_borders ).features)
                 .enter()
                 .append("path")
                     .attr("class","country")
@@ -291,7 +329,7 @@
 
             defs.append("path")
                 .attr("id", "land")
-                .datum(topojson.mesh(world, world.objects["world.geo"], function (a,b) { return a === b;} ))
+                .datum(topojson.mesh(world, world.objects.world_borders, function (a,b) { return a === b;} ))
                 .attr("d", path);
 
             defs.append("clipPath")
