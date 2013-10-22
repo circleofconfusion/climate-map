@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/topojson.v0.min.js"></script>
+    <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
+    <style>
+        html {
+            /*background: #aaaaab;*/
+            padding:0px;
+            }
+        body {
+            padding:0px;
+            margin:0px;
+            /*background:  linear-gradient(to bottom, #eeeeef 0%, #aaaaab 100%) */
+            }
+        #container {
+            padding: 10px;
+            width: 1300px;
+            margin: 0px auto;
+            }
+        h1 {
+            margin:10px 0px;
+            }
+        .country {
+            fill: #fff;
+            stroke:#000;
+            }
+        .sphere {
+            fill:#2C7FD6;
+            stroke:#000;
+            stroke-width:3px;
+            }
+        .graticule {
+            fill:none;
+            stroke:#000;
+            opacity:.3;
+            }
+            
+        .Af {
+            fill:#9A0002;
+            stroke:none;
+            opacity: .9;
+            }
+        .Am {
+            fill: #FD0000;
+            stroke: none;
+            opacity: .9;
+            }
+        .As {
+            fill: #FE96A1;
+            stroke: none;
+            opacity: .9;
+            }
+        .Aw {
+            fill: #FDCEC8;
+            stroke: none;
+            opacity: .9;
+            }
+        .BWk {
+            fill: #F3F96D;
+            stroke: none;
+            opacity: .9;
+            }
+        .BWh {
+            fill: #FFC904;
+            stroke: none;
+            opacity: .9;
+            }
+        .BSk {
+            fill: #CCAA52;
+            stroke: none;
+            opacity: .9;
+            }
+        .BSh {
+            fill: #CB9418;
+            stroke: none;
+            opacity: .9;
+            }
+        .Cfa {
+            fill: #033000;
+            stroke: none;
+            opacity: .9;
+            }
+        .Cfb {
+            fill: #005002;
+            stroke: none;
+            opacity: .9;
+            }
+        .Cfc {
+            fill: #087700;
+            stroke: none;
+            opacity: .9;
+            }
+        .Csa {
+            fill: #04FC02;
+            stroke: none;
+            opacity: .9;
+            }
+        .Csb {
+            fill: #95FF00;
+            stroke: none;
+            opacity: .9;
+            }
+        .Csc {
+            fill: #BEFC00;
+            stroke: none;
+            opacity: .9;
+            }
+        .Cwa {
+            fill: #A55604;
+            stroke: none;
+            opacity: .9;
+            }
+        .Cwb {
+            fill: #986204;
+            stroke: none;
+            opacity: .9;
+            }
+        .Cwc {
+            fill: #5B3D00;
+            stroke: none;
+            opacity: .9;
+            }
+        .Dfa {
+            fill: #320032;
+            stroke: none;
+            opacity: .9;
+            }
+        .Dfb {
+            fill: #660065;
+            stroke: none;
+            opacity: .9;
+            }
+        .Dfc {
+            fill: #C700D1;
+            stroke: none;
+            opacity: .9;
+            }
+        .Dfd {
+            fill: #C51386;
+            stroke: none;
+            opacity: .9;
+            }
+        .Dsa {
+            fill: #FD64FA;
+            stroke: none;
+            opacity: .9;
+            }
+        .Dsb {
+            fill: #FCB8FD;
+            stroke: none;
+            opacity: .9;
+            }
+        .Dsc {
+            fill: #E4C7FE;
+            stroke: none;
+            opacity: .9;
+            }
+        .Dsd {
+            fill: #C6C6C6;
+            stroke: none;
+            opacity: .9;
+            }
+        .Dwa {
+            fill: #C7B5F6;
+            stroke: none;
+            opacity: .9;
+            }
+        .Dwb {
+            fill: #997CB5;
+            stroke: none;
+            opacity: .9;
+            }
+        .Dwc {
+            fill: #79569B;
+            stroke: none;
+            opacity: .9;
+            }
+        .Dwd {
+            fill: #6D23B6;
+            stroke: none;
+            opacity: .9;
+            }
+        .EF {
+            fill: #6690FF;
+            stroke: none;
+            opacity: .9;
+            }
+        .ET {
+            fill: #62FFFE;
+            stroke: none;
+            opacity: .9;
+            }
+            
+        #date {
+            font-size: inherit;
+            font-weight: inherit;
+            background: linear-gradient(to bottom, #eeeeef, #eeeeef 75%, #aaaaab);
+            border: 1px solid #999;
+            border-radius:5px;
+            -webkit-appearance:none;
+            -moz-appearance:none;
+            appearance:none;
+            }
+            
+    </style>
+</head>
+
+<body>
+<div id="container">
+    <h1>World Climate Conditions
+        <select id="date" onchange="loadOverlay(this.options[this.options.selectedIndex].value);">
+            <option value='1901-1925.code.geo.json'>1901-1925</option>
+            <option value='1926-1950.code.geo.json'>1926-1950</option>
+            <option value='1951-1975.code.geo.json'>1951-1975</option>
+            <option value='1976-2000.code.geo.json'>1976-2000</option>
+        </select>
+    </h1>
+</div>
+    <script>
+        var scale = {projectionScale:1,
+            widthScale:6.5,
+            heightScale:3
+            };
+        var sizeFactor = 150;
+        var width = scale.widthScale * sizeFactor;
+        var height = scale.heightScale * sizeFactor;
+        
+        /*
+        var projection = d3.geo.homolosine()
+            .precision(.1)
+            .translate([width / 2, height / 2])
+            .scale(scale.projectionScale * sizeFactor);
+          */  
+          /*
+        var projection = d3.geo.interrupt(d3.geo.homolosine.raw)
+            .lobes([[ // northern hemisphere
+            [[-180,   0], [-100,  90], [ -40,   0]],
+            [[ -40,   0], [  30,  90], [ 180,   0]]
+            ], [ // southern hemisphere
+            [[-180,   0], [-160, -90], [-100,   0]],
+            [[-100,   0], [ -60, -90], [ -20,   0]],
+            [[ -20,   0], [  20, -90], [  80,   0]],
+            [[  80,   0], [ 140, -90], [ 180,   0]]
+            ]])
+            .scale(scale.projectionScale * sizeFactor)
+            .translate([width / 2, height / 2])
+            .precision(.1);
+        */
+        
+        var projection = d3.geo.mollweide()
+            .precision(.1)
+            .translate([width / 2, height / 2])
+            .scale(scale.projectionScale * sizeFactor);
+            
+        var path = d3.geo.path()
+            .projection(projection);
+        
+        var graticule = d3.geo.graticule();
+        
+        var svg = d3.select("#container")
+            .append("svg")
+                .attr("width",width)
+                .attr("height",height);
+        
+        svg.append("defs").append("path")
+            .datum({type: "Sphere"})
+            .attr("id", "sphere")
+            .attr("d", path);
+            
+        svg.append("use")
+            .attr("class", "sphere")
+            .attr("xlink:href", "#sphere");
+        
+        svg.append("path")
+            .datum(graticule)
+            .attr("class","graticule")
+            .attr("d",path)
+    
+        d3.json("world.topo.json", function (error, world) {
+            svg.selectAll(".country")
+                .data(topojson.object(world, world.objects["world.geo"]).geometries)
+                .enter()
+                .append("path")
+                    .attr("class","country")
+                    .attr("d",d3.geo.path().projection(projection));
+            
+            var defs = svg.append("defs");
+
+            defs.append("path")
+                .attr("id", "land")
+                .datum(topojson.mesh(world, world.objects["world.geo"], function (a,b) { return a === b;} ))
+                .attr("d", path);
+
+            defs.append("clipPath")
+                .attr("id", "clip")
+                .append("use")
+                .attr("xlink:href", "#land");
+                    
+            loadOverlay(document.getElementById("date").value)
+            
+        });
+        
+        function loadOverlay(overlayFile) {
+            d3.json(overlayFile, function (error, climate) {
+            
+                // remove the old overlay if it exists
+                svg.selectAll(".overlay")
+                    .remove();
+                
+                // add new overlay to the map
+                svg.append("g")
+                        .attr("class","overlay")
+                        .attr("clip-path", "url(#clip)")
+                        .selectAll(".climate")
+                            .data (climate.features)
+                            .enter()
+                            .append("path")
+                                .attr("class",function (d) {
+                                        return "climate " + d.properties.GRIDCODE;
+                                    })
+                                .attr("d", d3.geo.path().projection(projection))
+                                .attr("title", function (d) {
+                                        return d.properties.GRIDCODE;
+                                    });
+            });
+            
+            
+        }
+    </script>
+</body>
+</html>
