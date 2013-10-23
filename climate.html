@@ -245,10 +245,10 @@ h1 {
 		<h1>
 			World Climate Conditions <select id="date"
 				onchange="loadOverlay(this.options[this.options.selectedIndex].value);">
-				<option value='1901-1925.code.geo.json'>1901-1925</option>
-				<option value='1926-1950.code.geo.json'>1926-1950</option>
-				<option value='1951-1975.code.geo.json'>1951-1975</option>
-				<option value='1976-2000.code.geo.json'>1976-2000</option>
+				<option value='1901-1925.topo.json'>1901-1925</option>
+				<option value='1926-1950.topo.json'>1926-1950</option>
+				<option value='1951-1975.topo.json'>1951-1975</option>
+				<option value='1976-2000.topo.json'>1976-2000</option>
 			</select>
 		</h1>
 	</div>
@@ -261,27 +261,26 @@ h1 {
         var width = scale.widthScale * sizeFactor;
         var height = scale.heightScale * sizeFactor;
         
-        /*
-        var projection = d3.geo.homolosine()
-            .precision(.1)
-            .translate([width / 2, height / 2])
-            .scale(scale.projectionScale * sizeFactor);
-          */  
-          /*
-        var projection = d3.geo.interrupt(d3.geo.homolosine.raw)
-            .lobes([[ // northern hemisphere
-            [[-180,   0], [-100,  90], [ -40,   0]],
-            [[ -40,   0], [  30,  90], [ 180,   0]]
-            ], [ // southern hemisphere
-            [[-180,   0], [-160, -90], [-100,   0]],
-            [[-100,   0], [ -60, -90], [ -20,   0]],
-            [[ -20,   0], [  20, -90], [  80,   0]],
-            [[  80,   0], [ 140, -90], [ 180,   0]]
-            ]])
-            .scale(scale.projectionScale * sizeFactor)
-            .translate([width / 2, height / 2])
-            .precision(.1);
-        */
+        
+//         var projection = d3.geo.homolosine()
+//             .precision(.1)
+//             .translate([width / 2, height / 2])
+//             .scale(scale.projectionScale * sizeFactor);
+            
+          
+//         var projection = d3.geo.interrupt(d3.geo.homolosine.raw)
+//             .lobes([[ // northern hemisphere
+//             [[-180,   0], [-100,  90], [ -40,   0]],
+//             [[ -40,   0], [  30,  90], [ 180,   0]]
+//             ], [ // southern hemisphere
+//             [[-180,   0], [-160, -90], [-100,   0]],
+//             [[-100,   0], [ -60, -90], [ -20,   0]],
+//             [[ -20,   0], [  20, -90], [  80,   0]],
+//             [[  80,   0], [ 140, -90], [ 180,   0]]
+//             ]])
+//             .scale(scale.projectionScale * sizeFactor)
+//             .translate([width / 2, height / 2])
+//             .precision(.1);
         
 //         var projection = d3.geo.mollweide()
 //             .precision(.1)
@@ -290,8 +289,11 @@ h1 {
         
 //         var projection = d3.geo.mercator()
 //         	.scale(80);
+
+// 		var projection = d3.geo.miller()
+//         	.scale(120);
         
-		var projection = d3.geo.kavrayskiy7().scale(120);
+		var projection = d3.geo.kavrayskiy7().scale(130);
 		
         var path = d3.geo.path()
             .projection(projection);
@@ -353,15 +355,15 @@ h1 {
                         .attr("class","overlay")
                         .attr("clip-path", "url(#clip)")
                         .selectAll(".climate")
-                            .data (climate.features)
+                            .data (topojson.feature(climate, climate.objects.features).features)
                             .enter()
                             .append("path")
                                 .attr("class",function (d) {
-                                        return "climate " + d.properties.GRIDCODE;
+                                        return "climate " + d.properties.gridcode;
                                     })
                                 .attr("d", d3.geo.path().projection(projection))
                                 .attr("title", function (d) {
-                                        return d.properties.GRIDCODE;
+                                        return d.properties.gridcode;
                                     });
             });
             
