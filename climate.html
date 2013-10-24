@@ -19,12 +19,17 @@ body {
 
 #container {
 	padding: 10px;
-	width: 1300px;
-	margin: 0px auto;
+	width: 1100px;
+	margin: 0px;
 }
 
 h1 {
 	margin: 10px 0px;
+}
+
+svg {
+	margin:0;
+	padding:0;
 }
 
 .country {
@@ -42,6 +47,10 @@ h1 {
 	fill: none;
 	stroke: #000;
 	opacity: .3;
+}
+
+.climate {
+	fill-rule:nonzero;
 }
 
 .Af {
@@ -253,19 +262,14 @@ h1 {
 		</h1>
 	</div>
 	<script>
-        var scale = {projectionScale:1,
-            widthScale:6.5,
-            heightScale:6.5
-            };
-        var sizeFactor = 150;
-        var width = scale.widthScale * sizeFactor;
-        var height = scale.heightScale * sizeFactor;
-        
+        var width = 1100;
+        var height = 500;
+        var climateZones = ["Af","Am","As","Aw","BWk","BWh","BSk","BSh","Cfa","Cfb","Cfc","Csa","Csb","Csc","Cwa","Cwb","Cwc","Dfa","Dfb","Dfc","Dfd","Dsa","Dsb","Dsc","Dsd","Dwa","Dwb","Dwc","Dwd","EF","ET"];
         
 //         var projection = d3.geo.homolosine()
 //             .precision(.1)
 //             .translate([width / 2, height / 2])
-//             .scale(scale.projectionScale * sizeFactor);
+//             .scale(120);
             
           
 //         var projection = d3.geo.interrupt(d3.geo.homolosine.raw)
@@ -278,22 +282,22 @@ h1 {
 //             [[ -20,   0], [  20, -90], [  80,   0]],
 //             [[  80,   0], [ 140, -90], [ 180,   0]]
 //             ]])
-//             .scale(scale.projectionScale * sizeFactor)
+//             .scale(120)
 //             .translate([width / 2, height / 2])
 //             .precision(.1);
         
 //         var projection = d3.geo.mollweide()
 //             .precision(.1)
 //             .translate([width / 2, height / 2])
-//             .scale(scale.projectionScale * sizeFactor);
+//             .scale(120);
         
-//         var projection = d3.geo.mercator()
+//       	var projection = d3.geo.mercator()
 //         	.scale(80);
 
 // 		var projection = d3.geo.miller()
 //         	.scale(120);
         
-		var projection = d3.geo.kavrayskiy7().scale(130);
+		var projection = d3.geo.kavrayskiy7().scale(150).translate([410,250]);
 		
         var path = d3.geo.path()
             .projection(projection);
@@ -309,17 +313,22 @@ h1 {
             .datum({type: "Sphere"})
             .attr("id", "sphere")
             .attr("d", path);
-            
+
+        // define the edge of the earth    
         svg.append("use")
             .attr("class", "sphere")
             .attr("xlink:href", "#sphere");
         
+        // define the graticule
         svg.append("path")
             .datum(graticule)
             .attr("class","graticule")
             .attr("d",path)
-    
+         
+        // Load the world features from the world.topo.json file
         d3.json("world.topo.json", function (error, world) {
+        	
+        	// load the individual countries
             svg.selectAll(".country")
                 .data(topojson.feature(world, world.objects.world_borders ).features)
                 .enter()
@@ -328,21 +337,60 @@ h1 {
                     .attr("d",d3.geo.path().projection(projection));
             
             var defs = svg.append("defs");
-
+			
+            // define a path of land borders to use as a clip path
             defs.append("path")
                 .attr("id", "land")
                 .datum(topojson.mesh(world, world.objects.world_borders, function (a,b) { return a === b;} ))
                 .attr("d", path);
 
+            // define the clip path
             defs.append("clipPath")
                 .attr("id", "clip")
                 .append("use")
                 .attr("xlink:href", "#land");
                     
-            loadOverlay(document.getElementById("date").value)
+            // load the climate overlay
+            loadOverlay(document.getElementById("date").value);
             
         });
         
+                
+        var legendGroup = svg.selectAll(".legend-group")
+    		.data (climateZones)
+    		.enter()
+    		.append("g")
+    			.attr("class", "legend-group")
+    			.attr("height", 25)
+    			.attr("width", 100)
+				.attr("transform", function (d,i) { 
+					if (10 + 30*i + 25 < height)
+						return "translate(850," + (10 + 30 * i) + ")" ;
+					else
+						return "translate(950," + (10 + 30 *Math.floor(i - climateZones.length/2)) + ")";
+				});
+        
+        legendGroup.selectAll("rect")
+        	.data(climateZones)
+        	.enter()
+			.append ("rect")
+				.attr("x", 0)
+				.attr("y", 0)
+				.attr("width", 25)
+				.attr("height", 25)
+				.attr("class", function (d) { return "legend-rect " + d;});
+        legendGroup.selectAll("text")
+        	.data(climateZones)
+        	.enter()
+        	.append("text")
+        		.attr("x",30)
+        		.attr("y",20)
+        		.text(function (d) {return d;});
+	      
+        /**
+        * Loads a Koppen-Geiger Climate Regions overlay into the map. 
+        * @param overlayFile 	The topoJSON file that contains the overlay data.
+        */
         function loadOverlay(overlayFile) {
             d3.json(overlayFile, function (error, climate) {
             
@@ -352,13 +400,14 @@ h1 {
                 
                 // add new overlay to the map
                 svg.append("g")
-                        .attr("class","overlay")
-                        .attr("clip-path", "url(#clip)")
+                        .attr("class","overlay") // set the class
+                        .attr("clip-path", "url(#clip)") // use the shoreline paths as a clip path
                         .selectAll(".climate")
-                            .data (topojson.feature(climate, climate.objects.features).features)
+                            .data (topojson.feature(climate, climate.objects.features).features) // load the overlay from topoJSON
                             .enter()
                             .append("path")
-                                .attr("class",function (d) {
+                            	// set the Climate type from the gridcode feature property in the topoJSON file
+                                .attr("class",function (d) { 
                                         return "climate " + d.properties.gridcode;
                                     })
                                 .attr("d", d3.geo.path().projection(projection))
