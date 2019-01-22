@@ -1,0 +1,27 @@
+{
+  "name": "climate-map",
+  "version": "1.0.0",
+  "description": "Interactive map of Koppen-Geiger climate zones.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/circleofconfusion/climate-map.git"
+  },
+  "author": "Shane Knudsen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/circleofconfusion/climate-map/issues"
+  },
+  "homepage": "https://github.com/circleofconfusion/climate-map#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "d3-geo": "^1.11.3",
+    "d3-geo-projection": "^2.5.1",
+    "eslint": "^5.12.1",
+    "rollup": "^1.1.2",
+    "rollup-plugin-node-resolve": "^4.0.0"
+  }
+}
