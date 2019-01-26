@@ -1,0 +1,237 @@
+:root {
+    --water: rgb(145, 183, 255);
+    --graticule: rgba(0,0,0,0.3);
+    --border: #000;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    display: grid;
+    grid-template-rows: 1fr;
+}
+
+#map {
+    border: 1px solid;
+    overflow: hidden;
+}
+
+#sphere {
+    fill: var(--water);
+    stroke: var(--border);
+    stroke-width: 2;
+}
+
+.graticule {
+    fill: none;
+    stroke: var(--graticule);
+    stroke-width: 1px;
+}
+
+.land {
+    fill: #fff;
+    stroke: var(--border);
+    stroke-width: 1.5;
+}
+
+.country {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 1;
+}
+
+.zone {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 1;
+}
+
+
+.Af {
+	fill: rgb(82, 0, 1);
+	stroke: none;
+	opacity: .9;
+}
+
+.Am {
+	fill: rgb(255, 98, 98);
+	stroke: none;
+	opacity: .9;
+}
+
+.As {
+	fill: rgb(182, 125, 131);
+	stroke: none;
+	opacity: .9;
+}
+
+.Aw {
+	fill: #FDCEC8;
+	stroke: none;
+	opacity: .9;
+}
+
+.BWk {
+	fill: #F3F96D;
+	stroke: none;
+	opacity: .9;
+}
+
+.BWh {
+	fill: #FFC904;
+	stroke: none;
+	opacity: .9;
+}
+
+.BSk {
+	fill: #CCAA52;
+	stroke: none;
+	opacity: .9;
+}
+
+.BSh {
+	fill: #CB9418;
+	stroke: none;
+	opacity: .9;
+}
+
+.Cfa {
+	fill: #033000;
+	stroke: none;
+	opacity: .9;
+}
+
+.Cfb {
+	fill: #005002;
+	stroke: none;
+	opacity: .9;
+}
+
+.Cfc {
+	fill: #087700;
+	stroke: none;
+	opacity: .9;
+}
+
+.Csa {
+	fill: #04FC02;
+	stroke: none;
+	opacity: .9;
+}
+
+.Csb {
+	fill: #95FF00;
+	stroke: none;
+	opacity: .9;
+}
+
+.Csc {
+	fill: #BEFC00;
+	stroke: none;
+	opacity: .9;
+}
+
+.Cwa {
+	fill: #A55604;
+	stroke: none;
+	opacity: .9;
+}
+
+.Cwb {
+	fill: #986204;
+	stroke: none;
+	opacity: .9;
+}
+
+.Cwc {
+	fill: #5B3D00;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dfa {
+	fill: #320032;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dfb {
+	fill: #660065;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dfc {
+	fill: #C700D1;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dfd {
+	fill: #C51386;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dsa {
+	fill: #FD64FA;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dsb {
+	fill: #FCB8FD;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dsc {
+	fill: #E4C7FE;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dsd {
+	fill: #C6C6C6;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dwa {
+	fill: #C7B5F6;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dwb {
+	fill: #997CB5;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dwc {
+	fill: #79569B;
+	stroke: none;
+	opacity: .9;
+}
+
+.Dwd {
+	fill: #6D23B6;
+	stroke: none;
+	opacity: .9;
+}
+
+.EF {
+	fill: #6690FF;
+	stroke: none;
+	opacity: .9;
+}
+
+.ET {
+	fill: #62FFFE;
+	stroke: none;
+	opacity: .9;
+}
