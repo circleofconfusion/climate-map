@@ -1,6 +1,7 @@
-const width = 1600;
-const height = 900;
-const projection = d3.geoKavrayskiy7().scale(280).translate([width/2,height/2]);
+/* global d3 topojson:true */
+const width = 1500;
+const height = 750;
+const projection = d3.geoKavrayskiy7().scale(230).translate([width/2,height/2]);
 
 const path = d3.geoPath()
     .projection(projection);
@@ -12,8 +13,6 @@ const mapContainer = d3.select('#map');
 const map = mapContainer
     .append('svg')
     .attr('viewBox', `0 0 ${width} ${height}`)
-    // .attr('height', '100%')
-    // .attr('width', '100%')
     .attr('preserveAspectRatio', 'xMidYMin meet');
 
 const defs = map.append('defs');
@@ -73,7 +72,4 @@ Promise.all([d3.json('./world-50m.json'), d3.json('./topojson/1951-1975.topojson
             .attr('d', path)
             .append('title')
             .text(d => d.properties.CODE);
-    })
-    .catch(error => {
-        console.error(error);
     });
